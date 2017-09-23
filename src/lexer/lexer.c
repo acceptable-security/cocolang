@@ -276,6 +276,11 @@ bool lexer_attempt_special(lexer_t* lexer, lexer_token_t* dest) {
         dest->type = TOKEN_SPECIAL;
         dest->string_value = (char*) token;
 
+        // Move the lexer forward
+        for ( unsigned long j = 0; j < token_length; j++ ) {
+            lexer_advance(lexer);
+        }
+
         return true;
     }
 

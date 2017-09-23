@@ -3,6 +3,7 @@
 
 typedef struct {
     // Information about the code we're reading
+    int code_fd;               // Code file descriptor
     const char* code;          // Raw code in memory
     unsigned long code_length; // Byte length of code in memory
 
@@ -40,5 +41,10 @@ typedef struct {
         char char_value;
     };
 } lexer_token_t;
+
+lexer_t* lexer_init(const char* special_tokens[], unsigned long special_count);
+void lexer_load_code(lexer_t* lexer, const char* path);
+void lexer_next(lexer_t* lexer, lexer_token_t* dest);
+void lexer_close(lexer_t* lexer);
 
 #endif

@@ -1,3 +1,5 @@
+// This file contains the internal code used by the lexer.
+
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -290,6 +292,7 @@ bool lexer_attempt_special(lexer_t* lexer, lexer_token_t* dest) {
 // Advance the lexer and store the result into dest
 void lexer_next(lexer_t* lexer, lexer_token_t* dest) {
     assert(lexer != NULL);
+    assert(lexer->code != NULL);
     assert(dest != NULL);
 
     lexer_skip_whitespace(lexer);

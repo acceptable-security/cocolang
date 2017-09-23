@@ -1,0 +1,5 @@
+// Welcome to Hello World
+fn main(args : str[]) : int {
+    println("hello world\n");
+    return 0;
+}

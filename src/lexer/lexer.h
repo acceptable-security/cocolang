@@ -1,22 +1,6 @@
 #ifndef _LEXER_H
 #define _LEXER_H
 
-typedef struct {
-    // Information about the code we're reading
-    int code_fd;               // Code file descriptor
-    const char* code;          // Raw code in memory
-    unsigned long code_length; // Byte length of code in memory
-
-    // Lexer state information
-    unsigned long index;       // The index in the code
-    unsigned long line_number; // Line we are parsing
-    unsigned long line_offset; // Which char in the line we are parsing
-
-    // Special token list
-    const char* special[];       // List of special tokens
-    unsigned long special_count; // Amount of special tokens in that list
-} lexer_t;
-
 typedef enum {
     TOKEN_NULL,     // Nothing stored.
     TOKEN_NAME,     // Stored in string_value
@@ -42,9 +26,31 @@ typedef struct {
     };
 } lexer_token_t;
 
+typedef struct {
+    // Information about the code we're reading
+    int code_fd;               // Code file descriptor
+    const char* code;          // Raw code in memory
+    unsigned long code_length; // Byte length of code in memory
+
+    // Lexer state information
+    unsigned long index;       // The index in the code
+    unsigned long line_number; // Line we are parsing
+    unsigned long line_offset; // Which char in the line we are parsing
+
+    // Special token list
+    const char* special[];       // List of special tokens
+    unsigned long special_count; // Amount of special tokens in that list
+
+    // Currently loaded tokens
+    lexer_token_t previous;
+    lexer_token_t current;
+    lexer_token_t next;
+} lexer_t;
+
+
 lexer_t* lexer_init(const char* special_tokens[], unsigned long special_count);
 void lexer_load_code(lexer_t* lexer, const char* path);
-void lexer_next(lexer_t* lexer, lexer_token_t* dest);
+void lexer_read_token(lexer_t* lexer, lexer_token_t* dest);
 void lexer_close(lexer_t* lexer);
 
 #endif

@@ -31,6 +31,27 @@ lexer_t* lexer_init(const char* special_tokens[], unsigned long special_count) {
     return lexer;
 }
 
+// Preload the current and next token
+static void lexer_preload_tokens(lexer_t* lexer) {
+    assert(lexer != NULL);
+    assert(lexer->code != NULL);
+
+    lexer->previous.type = TOKEN_NULL;
+
+    // Load the current token
+    lexer_read_token(lexer, &lexer->current);
+
+    if ( lexer->current.type == TOKEN_NULL ) {
+        // TODO - print error
+        return;
+    }
+
+    // Load the net token
+    lexer_read_token(lexer, &lexer->next);
+    // We don't need to error check since one valid token isn't technically
+    // invalid at this stage.
+}
+
 // Let the lexer load the code into memory
 void lexer_load_code(lexer_t* lexer, const char* path) {
     assert(lexer != NULL);
@@ -45,6 +66,9 @@ void lexer_load_code(lexer_t* lexer, const char* path) {
 
     // Map the file into memory
     lexer->code = mmap(NULL, lexer->code_length, PROT_READ, MAP_SHARED, lexer->code_fd, 0);
+
+    // Preload the token
+    lexer_preload_tokens(lexer);
 }
 
 // Free any references or memory the lexer

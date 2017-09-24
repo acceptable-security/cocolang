@@ -290,7 +290,7 @@ bool lexer_attempt_special(lexer_t* lexer, lexer_token_t* dest) {
 }
 
 // Advance the lexer and store the result into dest
-void lexer_next(lexer_t* lexer, lexer_token_t* dest) {
+void lexer_read_token(lexer_t* lexer, lexer_token_t* dest) {
     assert(lexer != NULL);
     assert(lexer->code != NULL);
     assert(dest != NULL);

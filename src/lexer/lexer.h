@@ -10,12 +10,12 @@ typedef enum {
     TOKEN_SNUMBER,  // Stored in number_value
     TOKEN_FLOAT,    // Stored in float_value
     TOKEN_CHAR      // Stored in char_value
-} lexer_token_type;
+} lexer_token_type_t;
 
 // Structure for individual lexer tokens
 typedef struct {
     // Type of the token
-    lexer_token_type type;
+    lexer_token_type_t type;
 
     // Union for all the values
     union {

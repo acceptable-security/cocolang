@@ -19,6 +19,7 @@ lexer_t* lexer_init(const char* special_tokens[], unsigned long special_count) {
         return NULL;
     }
 
+    // Load some null values in first
     lexer->code = NULL;
     lexer->code_length = 0;
     lexer->index = 0;
@@ -69,6 +70,18 @@ void lexer_load_code(lexer_t* lexer, const char* path) {
 
     // Preload the token
     lexer_preload_tokens(lexer);
+}
+
+// Get the current token's type
+inline lexer_token_type_t lexer_current_type(lexer_t* lexer) {
+    assert(lexer);
+    return lexer->current.type;
+}
+
+// Get the next token's type
+inline lexer_token_type_t lexer_next_type(lexer_t* lexer) {
+    assert(lexer);
+    return lexer->next.type;
 }
 
 // Free any references or memory the lexer
